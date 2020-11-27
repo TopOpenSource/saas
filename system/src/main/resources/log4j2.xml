@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="logFilePath">/root/log/system</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+		</Console>
+
+		<RollingFile name="RollingFileInfo" fileName="${logFilePath}/info/info.log" filePattern="${logFilePath}/info/info-%d{yyyy-MM-dd}.log">
+			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="RollingFileWarn" fileName="${logFilePath}/warn/warn.log" filePattern="${logFilePath}/warn/warn-%d{yyyy-MM-dd}.log">
+			<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+			</Policies>
+		</RollingFile>
+
+		<RollingFile name="RollingFileError" fileName="${logFilePath}/error/error.log" filePattern="${logFilePath}/error/error-%d{yyyy-MM-dd}.log">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			<!-- 日志输出格式 -->
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="ALL">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingFileInfo"/>
+			<AppenderRef ref="RollingFileWarn"/>
+			<AppenderRef ref="RollingFileError"/>
+		</Root>
+	</Loggers>
+</Configuration>

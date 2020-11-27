@@ -1,0 +1,73 @@
+server:
+    port: 18083
+spring:
+    application:
+        name: service-consumer
+    cloud:
+        nacos:
+            discovery:
+                server-addr: 172.16.10.145:31010
+            password: nacos
+            username: nacos
+    rabbitmq:
+        host: 172.16.10.145
+        port: 30001
+        username: admin
+        password: qwe123-=
+        publisherConfirmType: CORRELATED #确认消息已发送到交换机(Exchange)
+        publisherReturns: true #确认消息已发送到队列(Queue)
+        listener:
+            simple:
+                acknowledge-mode: manual
+#主数据源
+datasources:
+    master:
+        url: jdbc:postgresql://172.16.10.145:30027/site_management
+        username: postgres
+        password: qwe123-=
+        driverClassName: org.postgresql.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+#redis连接
+redisson:
+    singleServerConfig:
+        address: "redis://172.16.10.145:31012"
+        password: qwe123-=
+        connectTimeout: 10000
+        timeout: 3000
+        retryAttempts: 1200
+        #重试时间间隔
+        retryInterval: 60000
+        #连接池
+        connectionPoolSize: 64
+    threads: 16
+    nettyThreads: 32
+
+oauth2:
+    #token有效期
+    accessTokenValiditySeconds: 10800
+    #token刷新有效期
+    refreshTokenValiditySeconds: 14400
+    signingKey: qwe123-=
+    #token类型 支持 beare 和 jwt
+    tokenType: bearer
+
+feign:
+    sentinel:
+        enabled: true
+    client:
+        config:
+            default:
+                connectTimeout: 2000 #建立连接需要的时间
+                readTimeout: 5000 #读取数据所需的时间
+
+#日志
+logging:
+    config: classpath:log4j2.xml
+
+#mybatis
+mybatis:
+    mapper-locations: classpath:mapper/*.xml,classpath:mapper/*/*.xml,classpath:mapper/*/*/*.xml,classpath:mapper/*/*/*/*.xml
+    type-aliases-package: com.sdstc.*.model,com.sdstc.*.*.model
+    configuration:
+        #当查询数据为空时字段返回为null，不加这个查询数据为空时，字段将被隐藏
+        call-setters-on-nulls: true

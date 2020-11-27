@@ -1,0 +1,57 @@
+group 'com.sdstc'
+version '1.0'
+
+buildscript {
+    ext {
+        // 定义变量
+        springBootVersion = '2.2.4.RELEASE'
+        springCloudVersion = 'Hoxton.RELEASE'
+        springCloudAlibabaVersion = '2.2.3.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        maven{
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('com.bmuschko:gradle-docker-plugin:6.6.1')
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+        }
+    }
+
+    // 统一移除jar
+    configurations {
+        all*.exclude module: 'spring-boot-starter-logging'
+        all*.exclude module: 'logback-classic'
+    }
+
+    repositories {
+        mavenLocal()
+        maven{
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        mavenCentral()
+    }
+
+    dependencies {
+        // lombok
+        compileOnly ('org.projectlombok:lombok:1.18.10')
+        annotationProcessor ('org.projectlombok:lombok:1.18.10')
+    }
+}

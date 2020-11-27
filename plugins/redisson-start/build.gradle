@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenLocal()
+    maven{
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    //redis
+    compile('org.redisson:redisson:3.13.0')
+    compile('org.redisson:redisson-spring-data-22:3.13.2')
+    compile('org.springframework.boot:spring-boot-starter-data-redis:2.2.0.RELEASE')
+    //web
+    compile('org.springframework.boot:spring-boot-autoconfigure:2.2.4.RELEASE')
+}
+
+//编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

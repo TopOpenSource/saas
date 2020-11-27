@@ -1,0 +1,25 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenLocal()
+    maven{
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.apache.logging.log4j:log4j-slf4j-impl:2.13.0')
+    compile('org.apache.commons:commons-lang3:3.9')
+    compile('commons-io:commons-io:2.7')
+    compile('com.alibaba:fastjson:1.2.66')
+    //hutool
+    compile('cn.hutool:hutool-all:5.4.7')
+}
+
+//编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
