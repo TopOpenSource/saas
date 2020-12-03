@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sdstc.dynamicds.dao.TenantDao">
+
+    <resultMap id="tenantMap" type="com.sdstc.dynamicds.model.Tenant">
+        <id column="id" property="id" />
+        <result column="db_connect" property="dbConnect" />
+        <result column="db_user" property="dbUser" />
+        <result column="db_pwd" property="dbPwd" />
+        <result column="driver_class_name" property="driverClassName" />
+    </resultMap>
+    <select id="selTenants" resultMap="tenantMap">
+        select * from system.tenant
+    </select>
+
+</mapper>

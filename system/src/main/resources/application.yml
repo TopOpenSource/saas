@@ -42,15 +42,6 @@ redisson:
     threads: 16
     nettyThreads: 32
 
-oauth2:
-    #token有效期
-    accessTokenValiditySeconds: 10800
-    #token刷新有效期
-    refreshTokenValiditySeconds: 14400
-    signingKey: qwe123-=
-    #token类型 支持 beare 和 jwt
-    tokenType: bearer
-
 feign:
     sentinel:
         enabled: true

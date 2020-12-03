@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.oauth2.dao.UserDao">
+	<resultMap id="RoleMap" type="com.sdstc.oauth2.model.Role">
+		<id column="id" property="id" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+	</resultMap>
+
+	<resultMap id="PermMap" type="com.sdstc.oauth2.model.Perm">
+		<id column="id" property="id" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+	</resultMap>
+
+	<resultMap id="UserInfoMap" type="com.sdstc.oauth2.model.UserInfo">
+		<id column="id" property="id" />
+		<result column="account" property="account" />
+		<result column="name" property="name" />
+		<result column="pwd" property="pwd" />
+		<result column="state" property="state" />
+		<result column="is_delete" property="isDelete" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+	</resultMap>
+
+	<resultMap id="TenantMap" type="com.sdstc.dynamicds.model.Tenant">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="state" property="state" />
+	</resultMap>
+
+ 
+	<select id="getRolesByUser" resultMap="RoleMap">
+        select 
+          t2.id,t2.code,t2.name 
+        from 
+          system.sys_user_role t1
+		  left join system.sys_role t2 on t1.role_id=t2.id
+		where 
+		t1.is_delete = '0' 
+		and t1.user_account=#{account}
+	</select>
+
+	<select id="getPermsByUser" resultMap="PermMap">
+       select 
+         t3.id,t3.code,t3.name 
+       from
+		   system.sys_role_perm t1
+		 left join system.sys_user_role t2 on t1.role_id=t2.role_id
+		 left join system.sys_perm t3 on t1.perm_id=t3.id
+      where 
+		 t2.user_account=#{account}
+		 and t2.is_delete = '0'
+	</select>
+
+	<select id="getTenantsByUserAccount" resultMap="TenantMap">
+         SELECT 
+            t2.*
+		 FROM
+		    system.user_tenant t1
+		    left join system.tenant t2 on t1.tenant_id=t2.id
+         <where>
+             <if test="account!=null">
+             and t1.user_account=#{account}
+             </if>
+			 and t1.state='1'
+         </where>  
+	</select>
+
+	<select id="getUser" resultMap="UserInfoMap">
+
+		select
+		aa.id,
+		aa.name,
+		aa.account,
+		aa.phone,
+		aa.email,
+		aa.pwd,
+		aa.state,
+		aa.is_delete
+		from
+		system.sys_user aa
+		<where>
+		(aa.account=#{account} or aa.phone=#{account} or aa.email=#{account})
+		and aa.state='1'
+		and aa.is_delete = '0'
+		</where>
+	</select>
+</mapper>

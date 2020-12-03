@@ -1,0 +1,54 @@
+server:
+ port: 8002
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: oauth2
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.10.145:31010
+      password: nacos
+      username: nacos
+  session:
+    store-type: redis
+
+#主数据源
+datasources:
+  master:
+    url: jdbc:postgresql://172.16.10.145:30027/site_management
+    username: postgres
+    password: qwe123-=
+    driverClassName: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+#redis连接
+redisson:
+  singleServerConfig:
+    address: "redis://172.16.10.145:31012"
+    password: qwe123-=
+    connectTimeout: 10000
+    timeout: 3000
+    retryAttempts: 1200
+    #重试时间间隔
+    retryInterval: 60000
+    #连接池
+    connectionPoolSize: 64
+  threads: 16
+  nettyThreads: 32
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml,classpath:mapper/*/*.xml,classpath:mapper/*/*/*.xml
+  type-aliases-package: com.sdstc.*.model
+  configuration:
+    call-setters-on-nulls: true
+oauth2:
+  #token有效期
+  accessTokenValiditySeconds: 10800
+  #token刷新有效期
+  refreshTokenValiditySeconds: 14400
+  signingKey: qwe123-=
+  #token类型 支持 beare 和 jwt
+  tokenType: bearer

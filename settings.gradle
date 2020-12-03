@@ -1,5 +1,6 @@
 rootProject.name = 'saas'
 include 'system'
+include 'oauth2'
 include 'gateway'
 include 'plugins:utils'
 include 'plugins:officetool-start'

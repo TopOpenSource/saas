@@ -1,35 +1,19 @@
-eureka-server: http://172.16.200.49:8000/eureka
-
 spring:
   application:
     name: gateway
   main:
-    allow-bean-definition-overriding: true 
+    allow-bean-definition-overriding: true
   cloud:
-    gateway:
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods:
-            - GET
-            - POST
-            - OPTION
-
-server:
-  port: 88
-
-eureka:
-  instance:
-      prefer-ip-address: true
-      instance-id: ${spring.cloud.client.ip-address}:${server.port}
-      lease-renewal-interval-in-seconds: 1 # 续约更新时间间隔(秒)
-      lease-expiration-duration-in-seconds: 2 # 续约到期时间
+    nacos:
+      discovery:
+        server-addr: 172.16.10.145:31010
+      password: nacos
+      username: nacos
+feign:
+  sentinel:
+    enabled: true
   client:
-    service-url:
-      defaultZone: ${eureka-server}
-    healthcheck:
-      enabled: true # 开启健康检查
-      
-logging:
-  config: classpath:log4j2.xml
+    config:
+      default:
+        connectTimeout: 2000 #建立连接需要的时间
+        readTimeout: 5000 #读取数据所需的时间
