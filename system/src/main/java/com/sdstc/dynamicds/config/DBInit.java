@@ -1,7 +1,8 @@
-package com.sdstc.config.dynamicds;
+package com.sdstc.dynamicds.config;
 
-import com.sdstc.admin.dao.TenantDao;
-import com.sdstc.admin.model.Tenant;
+import com.sdstc.dynamicds.constant.TenantConstant;
+import com.sdstc.dynamicds.dao.TenantDao;
+import com.sdstc.dynamicds.model.Tenant;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class DBInit implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        DBContextHolder.setDbKey(TenantConstant.defaultDBKey);
         List<Tenant> tenantList = tenantDao.selTenants();
         tenantList.forEach(tenant -> {
             dataSource.putDataSource(String.valueOf(tenant.getId()), this.dataSource(tenant.getDbConnect(), tenant.getDbUser(), tenant.getDbPwd(), tenant.getDriverClassName()));

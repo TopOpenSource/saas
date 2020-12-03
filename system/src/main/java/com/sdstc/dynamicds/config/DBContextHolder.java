@@ -1,4 +1,4 @@
-package com.sdstc.config.dynamicds;
+package com.sdstc.dynamicds.config;
 
 public class DBContextHolder {
 	private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();

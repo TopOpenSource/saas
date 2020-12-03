@@ -1,6 +1,9 @@
 package com.sdstc.gateway.config;
 
-import com.sdstc.gateway.service.PermissionService;
+import com.sdstc.gateway.rest.oauth.dto.LoginUserInfo;
+import com.sdstc.gateway.rest.oauth.service.TokenService;
+import com.sdstc.gateway.rest.system.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -9,16 +12,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /**
- * @author zhangzhiwei
+ * @author cheng
  * gateway全局拦截
  */
 @Component
 public class GatewayFilter implements GlobalFilter, Ordered {
-
-    protected static ThreadLocal<String> ip = new ThreadLocal<>();
-
-    private PermissionService permissionService;
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -27,7 +33,10 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         String method = request.getMethodValue();
         String url = request.getPath().value();
 
-        //判断url是否需要权限
+        List<String> tokens = request.getHeaders().get(AUTHORIZATION_HEADER);
+        FeignOauth2RequestInterceptor.setToken(tokens.get(0));
+        LoginUserInfo userInfo= tokenService.userInfo();
+        /*//判断url是否需要权限
         boolean isAuth = permissionService.ignoreAuthentication(url);
         if(isAuth){
             //验证token
@@ -39,8 +48,9 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }else{
             return chain.filter(exchange);
-        }
+        }*/
 
+        return chain.filter(exchange);
     }
 
     /**

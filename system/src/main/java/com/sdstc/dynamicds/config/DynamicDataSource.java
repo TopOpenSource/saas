@@ -1,4 +1,4 @@
-package com.sdstc.config.dynamicds;
+package com.sdstc.dynamicds.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.AbstractDataSource;
@@ -41,8 +41,9 @@ public class DynamicDataSource extends AbstractDataSource implements Initializin
         if (key == null) {
             key = this.defaultDataSourceKey;
         }
-
+System.out.println(key);
         DataSource dataSource = this.targetDataSources.get(key);
+
         if (dataSource != null) {
             return dataSource;
         } else {

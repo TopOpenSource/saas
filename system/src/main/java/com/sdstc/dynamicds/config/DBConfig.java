@@ -1,4 +1,4 @@
-package com.sdstc.config.dynamicds;
+package com.sdstc.dynamicds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Data;
