@@ -12,19 +12,20 @@ import lombok.Data;
  */
 @Data
 public class LoginUserInfo {
-   private String userAccount;
-   private String userName;
-   private Long customerId;
-   private String customerName;
-   private String customerState;
-   private List<String> userAuths;
-   private String phone;
-   private String email;
-   
-   public void addAuth(String auth) {
-	   if(this.userAuths==null) {
-		   this.userAuths=new ArrayList<String>();
-	   }
-       this.userAuths.add(auth);
-   }
+    private String userAccount;
+    private String userName;
+    private Long tenantId;
+    private String tenantName;
+    private String tenantState;
+    private List<String> userAuths;
+    private String phone;
+    private String email;
+    private Boolean hasPerm;
+
+    public void addAuth(String auth) {
+        if(this.userAuths==null) {
+            this.userAuths=new ArrayList<String>();
+        }
+        this.userAuths.add(auth);
+    }
 }

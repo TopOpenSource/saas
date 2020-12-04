@@ -1,5 +1,6 @@
 package com.sdstc.gateway.config;
 
+import com.sdstc.pub.constant.SystemConstant;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.beans.factory.ObjectProvider;
@@ -16,23 +17,35 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class FeignOauth2RequestInterceptor implements RequestInterceptor {
-    private final String AUTHORIZATION_HEADER = "Authorization";
-
+    /**
+     * token 线程安全
+     */
     private static final ThreadLocal<String> tokenThreadLocal = new ThreadLocal<>();
-
     public static void setToken(String token) {
         tokenThreadLocal.set(token);
     }
-
+  /*  *//**
+     * tenantId 线程安全
+     *//*
+    private static final ThreadLocal<String> tenantIdThreadLocal = new ThreadLocal<>();
+    public static void setTenantId(String tenantId) {
+        tenantIdThreadLocal.set(tenantId);
+    }*/
     /**
-     * 拦截器增加token
+     * 拦截器增加token tenantId
      * @param requestTemplate
      */
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        requestTemplate.header(AUTHORIZATION_HEADER,tokenThreadLocal.get());
+        requestTemplate.header(SystemConstant.AUTHORIZATION_HEADER,tokenThreadLocal.get());
+        //requestTemplate.header(SystemConstant.TENANTID_HEADER,tenantIdThreadLocal.get());
     }
 
+    /**
+     * 设置数据转换
+     * @param converters
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
     public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {

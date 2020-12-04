@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.sdstc.dynamicds.model.Tenant;
+import com.sdstc.pub.dto.LoginUserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -52,6 +53,29 @@ public class UserSecurity extends User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	/**
+	 * 转为 LoginUserInfo
+	 * @return
+	 */
+	public LoginUserInfo parse2LoginUserInfo(){
+		LoginUserInfo userInfo=new LoginUserInfo();
+
+		if(this.getTenant()!=null && this.getTenant().getId() !=null){
+			userInfo.setTenantId(this.getTenant().getId());
+			userInfo.setTenantName(this.getTenant().getName());
+			userInfo.setTenantState(this.getTenant().getState());
+		}
+		userInfo.setUserAccount(this.getUsername());
+		userInfo.setUserName(this.getUserName());
+		userInfo.setPhone(this.getPhone());
+		userInfo.setEmail(this.getEmail());
+		for(GrantedAuthority auth:this.getAuthorities()) {
+			userInfo.addAuth(auth.getAuthority());
+		}
+		return userInfo;
 	}
 	
 }

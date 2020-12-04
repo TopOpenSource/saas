@@ -3,6 +3,7 @@ package com.sdstc.oauth2.dao;
 import java.util.List;
 
 import com.sdstc.dynamicds.model.Tenant;
+import com.sdstc.oauth2.model.Url;
 import org.apache.ibatis.annotations.Param;
 
 import com.sdstc.oauth2.model.Perm;
@@ -18,5 +19,6 @@ public interface UserDao {
    UserInfo getUser(@Param("account")String account);
    List<Role> getRolesByUser(@Param("account")String account);
    List<Perm> getPermsByUser(@Param("account")String account);
+   List<Url> getUrlsByUser(@Param("account")String account);
    List<Tenant> getTenantsByUserAccount(@Param("account")String account);
 }

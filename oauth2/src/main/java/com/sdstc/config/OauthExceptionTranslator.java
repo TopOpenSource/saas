@@ -2,6 +2,7 @@ package com.sdstc.config;
 
 import java.io.IOException;
 
+import com.sdstc.pub.common.SystemCodeEnum;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-import com.sdstc.pub.dto.ResultDto;
+import com.sdstc.pub.common.ResultDto;
 
 /**
  * 自定义异常处理，暂未使用
@@ -33,29 +34,35 @@ public class OauthExceptionTranslator implements WebResponseExceptionTranslator 
 		ResultDto resultDto=new ResultDto(1,null);
 		
 		if (ase != null) {
-			resultDto.setResult(ResultDto.OAUTH2_FAILE);
+			//resultDto.setResult(ResultDto.OAUTH2_FAILE);
+			resultDto=new ResultDto(SystemCodeEnum.SYSTEM_NO_AUTH);
 			return handleOAuth2Exception(resultDto);
 		}
 
 		ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class, causeChain);
 		if (ase != null) {
-			resultDto.setResult(ResultDto.ACCESS_FAILE);
+			//resultDto.setResult(ResultDto.ACCESS_FAILE);
+			resultDto=new ResultDto(SystemCodeEnum.SYSTEM_NO_AUTH);
 			return handleOAuth2Exception(resultDto);
 		}
 
 		ase = (AccessDeniedException) throwableAnalyzer.getFirstThrowableOfType(AccessDeniedException.class, causeChain);
 		if (ase instanceof AccessDeniedException) {
-			resultDto.setResult(ResultDto.FORBIDDEN_FAILE);
+			//resultDto.setResult(ResultDto.FORBIDDEN_FAILE);
+			resultDto=new ResultDto(SystemCodeEnum.SYSTEM_NO_AUTH);
 			return handleOAuth2Exception(resultDto);
 		}
 
 		ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
 		if (ase instanceof HttpRequestMethodNotSupportedException) {
-			resultDto.setResult(ResultDto.METHODNOTALLOWED_FAILE);
+			//resultDto.setResult(ResultDto.METHODNOTALLOWED_FAILE);
+			resultDto=new ResultDto(SystemCodeEnum.SYSTEM_NO_AUTH);
 			return handleOAuth2Exception(resultDto);
 		}
 
-		resultDto.setResult(ResultDto.SERVERERROR_FAILE);
+		//resultDto.setResult(ResultDto.SERVERERROR_FAILE);
+		resultDto=new ResultDto(SystemCodeEnum.SYSTEM_NO_AUTH);
+
 		return handleOAuth2Exception(resultDto);
 
 	}

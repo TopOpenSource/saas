@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sdstc.oauth2.model.UserInfo;
 import com.sdstc.oauth2.model.UserSecurity;
 import com.sdstc.pub.dto.LoginUserInfo;
-import com.sdstc.pub.dto.ResultDto;
+import com.sdstc.pub.common.ResultDto;
 
 
 @RestController
@@ -51,21 +51,7 @@ public class TokenController {
 	public LoginUserInfo userInfo(Principal principal) {
 		OAuth2Authentication oauth2=(OAuth2Authentication) principal;
 		UserSecurity user=(UserSecurity) oauth2.getUserAuthentication().getPrincipal();
-		LoginUserInfo userInfo=new LoginUserInfo();
-
-		if(user.getTenant()!=null && user.getTenant().getId() !=null){
-			userInfo.setCustomerId(user.getTenant().getId());
-			userInfo.setCustomerName(user.getTenant().getName());
-			userInfo.setCustomerState(user.getTenant().getState());
-		}
-		userInfo.setUserAccount(user.getUsername());
-		userInfo.setUserName(user.getUserName());
-		userInfo.setPhone(user.getPhone());
-		userInfo.setEmail(user.getEmail());
-		for(GrantedAuthority auth:user.getAuthorities()) {
-			userInfo.addAuth(auth.getAuthority());
-		}
-		return userInfo;
+		return  user.parse2LoginUserInfo();
 	}
     /**
 	 * 清理token
@@ -87,7 +73,7 @@ public class TokenController {
 	
 	/**
 	   *   切换 所属客户
-	 * @param principal
+	 * @param authentication
 	 * @param customerId
 	 * @return
 	 */

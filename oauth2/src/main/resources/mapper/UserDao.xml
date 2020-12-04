@@ -13,6 +13,13 @@
 		<result column="name" property="name" />
 	</resultMap>
 
+	<resultMap id="UrlMap" type="com.sdstc.oauth2.model.Url">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="url" property="url" />
+
+	</resultMap>
+
 	<resultMap id="UserInfoMap" type="com.sdstc.oauth2.model.UserInfo">
 		<id column="id" property="id" />
 		<result column="account" property="account" />
@@ -30,7 +37,8 @@
 		<result column="state" property="state" />
 	</resultMap>
 
- 
+
+
 	<select id="getRolesByUser" resultMap="RoleMap">
         select 
           t2.id,t2.code,t2.name 
@@ -46,12 +54,27 @@
        select 
          t3.id,t3.code,t3.name 
        from
-		   system.sys_role_perm t1
+		 system.sys_role_perm t1
 		 left join system.sys_user_role t2 on t1.role_id=t2.role_id
 		 left join system.sys_perm t3 on t1.perm_id=t3.id
       where 
 		 t2.user_account=#{account}
 		 and t2.is_delete = '0'
+	</select>
+
+	<select id="getUrlsByUser" resultMap="UrlMap">
+		select  t3.user_account,t3.role_id,t1.perm_id,t1.url_id,t4.url
+		from  system.sys_perm_url t1
+		 FULL JOIN  system.sys_role_perm t2 on t1.perm_id = t2.perm_id
+		 FULL JOIN  system.sys_user_role t3 on t3.role_id=t2.role_id
+		 left JOIN  system.sys_url t4 on t1.url_id=t4.id
+        where
+			t1.is_delete = '0'
+        and t2.is_delete = '0'
+		and t3.is_delete = '0'
+		and t4.is_delete = '0'
+        and t3.user_account=#{account}
+
 	</select>
 
 	<select id="getTenantsByUserAccount" resultMap="TenantMap">

@@ -22,4 +22,12 @@ public interface RoleService {
      * @return
      */
      List<Perm> getPermsByUser(String account,String tenantId);
+
+    /**
+     * 验证是否对URL有权限
+     * @param account
+     * @param tenantId
+     * @return
+     */
+     Boolean hasPerm(String account,String url,String tenantId);
 }
