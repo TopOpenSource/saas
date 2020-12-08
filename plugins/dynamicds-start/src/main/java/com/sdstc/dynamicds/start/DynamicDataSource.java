@@ -1,5 +1,8 @@
 package com.sdstc.dynamicds.start;
 
+import cn.hutool.Hutool;
+import cn.hutool.core.math.MathUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.sdstc.dynamicds.constant.DataSourceConstant;
 import com.sdstc.dynamicds.dto.TenantDataSource;
 import com.sdstc.dynamicds.service.DataSourceService;
@@ -14,6 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 动态数据源
@@ -72,8 +76,9 @@ public class DynamicDataSource extends AbstractDataSource implements Initializin
             //只读数据源
             if(DataSourceConstant.READ.equals(action)){
                 int size=tenantDataSource.getReads().size();
-
-                return  null;
+                //随机选取数据源
+                Random rand = new Random();
+                return tenantDataSource.getReads().get(rand.nextInt(size)+1);
             }
             //读写数据源
             if(DataSourceConstant.WRITE.equals(action)){
@@ -123,4 +128,8 @@ public class DynamicDataSource extends AbstractDataSource implements Initializin
         return tenantDataSource;
     }
 
+    public static void main(String[] args) {
+        Random rand = new Random();
+       System.out.println(rand.nextInt(1)+1);
+    }
 }
