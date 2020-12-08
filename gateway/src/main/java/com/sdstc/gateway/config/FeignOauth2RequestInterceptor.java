@@ -24,13 +24,6 @@ public class FeignOauth2RequestInterceptor implements RequestInterceptor {
     public static void setToken(String token) {
         tokenThreadLocal.set(token);
     }
-  /*  *//**
-     * tenantId 线程安全
-     *//*
-    private static final ThreadLocal<String> tenantIdThreadLocal = new ThreadLocal<>();
-    public static void setTenantId(String tenantId) {
-        tenantIdThreadLocal.set(tenantId);
-    }*/
     /**
      * 拦截器增加token tenantId
      * @param requestTemplate
@@ -38,7 +31,6 @@ public class FeignOauth2RequestInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         requestTemplate.header(SystemConstant.AUTHORIZATION_HEADER,tokenThreadLocal.get());
-        //requestTemplate.header(SystemConstant.TENANTID_HEADER,tenantIdThreadLocal.get());
     }
 
     /**

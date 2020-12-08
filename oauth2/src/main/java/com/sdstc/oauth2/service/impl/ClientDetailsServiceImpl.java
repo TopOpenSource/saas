@@ -3,7 +3,7 @@ package com.sdstc.oauth2.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sdstc.dynamicds.config.DBContextHolder;
+import com.sdstc.dynamicds.start.DBContextHolder;
 import com.sdstc.dynamicds.constant.TenantConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

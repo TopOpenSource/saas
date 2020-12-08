@@ -4,6 +4,7 @@ import cn.hutool.core.util.CharsetUtil;
 import com.sdstc.gateway.rest.oauth.service.TokenService;
 import com.sdstc.pub.common.ResultDto;
 import com.sdstc.pub.common.SystemCodeEnum;
+import com.sdstc.pub.constant.SystemConstant;
 import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -32,7 +34,6 @@ import java.util.stream.Collectors;
  */
 @Component
 public class GatewayFilter implements GlobalFilter, Ordered {
-    private final String AUTHORIZATION_HEADER = "Authorization";
     @Autowired
     private TokenService tokenService;
 
@@ -43,7 +44,6 @@ public class GatewayFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String url = request.getPath().value();
-
         //获取token
         String token = this.getToken(request);
         if(!StringUtils.isEmpty(token)){
@@ -59,11 +59,17 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             LoginUserInfo userInfo = tokenService.hasPerm(url);
             //验证是否有权限
             if(userInfo.getHasPerm()){
-                return chain.filter(exchange);
+                return chain.filter(this.addTenantId2Header(exchange,String.valueOf(userInfo.getTenantId())));
             }else{
                 return this.unauthorized(exchange);
             }
         }
+    }
+
+    private ServerWebExchange addTenantId2Header(ServerWebExchange exchange,String tenantId){
+        ServerHttpRequest host = exchange.getRequest().mutate().header(SystemConstant.TENANTID_HEADER, tenantId).build();
+        ServerWebExchange build = exchange.mutate().request(host).build();
+        return build;
     }
 
     /**
@@ -73,14 +79,23 @@ public class GatewayFilter implements GlobalFilter, Ordered {
      * @return
      */
     private String getToken(ServerHttpRequest request) {
-        List<String> tokens = request.getHeaders().get(AUTHORIZATION_HEADER);
+        /**
+         * 1.从header中获取token
+         * 2.如果不存在在params中获取
+         */
+        List<String> tokens = request.getHeaders().get(SystemConstant.AUTHORIZATION_HEADER);
         if (tokens != null && tokens.size() == 1) {
             return tokens.get(0);
         } else {
-            return null;
+            MultiValueMap<String, String> params=request.getQueryParams();
+            tokens=params.get(SystemConstant.AUTHORIZATION_HEADER);
+            if (tokens != null && tokens.size() == 1) {
+                return tokens.get(0);
+            }else{
+                return null;
+            }
         }
     }
-
     /**
      * 验证URL是否为忽略验证
      *

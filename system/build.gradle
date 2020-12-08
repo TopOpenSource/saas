@@ -21,11 +21,11 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
     compile('org.springframework.cloud:spring-cloud-starter-openfeign')
-    compile('org.postgresql:postgresql:42.2.18')
-    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.3')
+    compile('mysql:mysql-connector-java:8.0.22')
     compile('org.springframework.boot:spring-boot-starter-amqp')
     compile project(":plugins:utils")
     compile project(":plugins:redisson-start")
+    compile project(":plugins:dynamicds-start")
 
 }
 

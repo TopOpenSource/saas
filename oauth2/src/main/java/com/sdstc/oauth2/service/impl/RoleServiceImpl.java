@@ -1,6 +1,6 @@
 package com.sdstc.oauth2.service.impl;
 
-import com.sdstc.dynamicds.config.DBContextHolder;
+import com.sdstc.dynamicds.start.DBContextHolder;
 import com.sdstc.dynamicds.constant.TenantConstant;
 import com.sdstc.oauth2.dao.UserDao;
 import com.sdstc.oauth2.model.Perm;
@@ -13,9 +13,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class RoleServiceImpl implements RoleService {
