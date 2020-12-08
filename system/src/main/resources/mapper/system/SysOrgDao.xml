@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.system.dao.SysOrgDao">
+	
+	<resultMap id="SysOrgMap" type="com.sdstc.system.model.SysOrg">
+	    <id column="id" property="id" />
+	    <result column="gmt_create" property="gmtCreate" />
+	    <result column="gmt_modified" property="gmtModified" />
+	    <result column="create_account" property="createAccount" />
+	    <result column="modified_account" property="modifiedAccount" />
+	    <result column="is_delete" property="isDelete" />
+	    <result column="name" property="name" />
+	    <result column="code" property="code" />
+	    <result column="p_id" property="pId" />
+	    <result column="index" property="index" />
+	    <result column="path" property="path" />
+	    <result column="type" property="type" />
+	</resultMap>
+	
+    <sql id="SysOrgCols">
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,code,p_id,index,path,type
+    </sql>
+    
+    <sql id="SysOrgProps">
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{code},#{pId},#{index},#{path},#{type}
+    </sql>
+    
+    <sql id="SysOrgWhere">
+      
+    </sql>
+    
+    <sql id="SysOrgDtoWhere">
+      
+    </sql>
+	
+	<select id="selectByDto"  parameterType="com.sdstc.system.model.SysOrg" resultMap="SysOrgMap">
+		select
+			<include refid="SysOrgCols"></include>
+		from sys_org
+		<where>
+		    <include refid="SysOrgWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectCountByDto"  parameterType="com.sdstc.system.model.SysOrg" resultType="Integer">
+		select
+			count(*)
+		from sys_org
+		<where>
+		    <include refid="SysOrgWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectPageByDto" resultMap="SysOrgMap">
+		select
+			<include refid="SysOrgCols"></include>
+		from sys_org
+		<where>
+		    <include refid="SysOrgDtoWhere"></include>
+		</where>
+		limit #{pageDto.start},#{pageDto.pageSize}
+	</select>
+</mapper>

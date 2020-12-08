@@ -1,12 +1,11 @@
 package com.sdstc.oauth2.model;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.sdstc.dynamicds.model.Tenant;
 import com.sdstc.pub.dto.LoginUserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
+import java.util.List;
 
 public class UserSecurity extends User {
 
@@ -20,9 +19,11 @@ public class UserSecurity extends User {
 	private List<Tenant> tenants;
 	//所选客户
 	private  Tenant tenant;
-	
+
+	private Long id;
 	private String phone;
 	private String email;
+
 	
 	public String getUserName() {
 		return userName;
@@ -54,7 +55,13 @@ public class UserSecurity extends User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * 转为 LoginUserInfo
@@ -68,6 +75,7 @@ public class UserSecurity extends User {
 			userInfo.setTenantName(this.getTenant().getName());
 			userInfo.setTenantState(this.getTenant().getState());
 		}
+		userInfo.setId(this.getId());
 		userInfo.setUserAccount(this.getUsername());
 		userInfo.setUserName(this.getUserName());
 		userInfo.setPhone(this.getPhone());

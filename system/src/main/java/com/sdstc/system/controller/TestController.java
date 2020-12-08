@@ -1,29 +1,43 @@
 package com.sdstc.system.controller;
 
+
 import com.sdstc.pub.dto.LoginUserInfo;
-import com.sdstc.system.dao.UserDao;
-import com.sdstc.system.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/system/test")
+@RequestMapping("/api/system")
 public class TestController {
-    @Autowired
-    private UserDao userDao;
+    @RequestMapping("user/add")
+    public String test1() {
+        System.out.print(LoginUserInfo.getLoginUserInfo().getUserName());
+        return "ok";
+    }
 
-    @RequestMapping("insert")
-    public String insert() {
+    @RequestMapping("org/add")
+    public String test2() {
+        System.out.print(LoginUserInfo.getLoginUserInfo().getUserName());
+        return "ok";
+    }
 
-        List<User> users = userDao.selUsers();
-        return "a";
+
+    @RequestMapping("role/add")
+    public String test3() {
+        System.out.print(LoginUserInfo.getLoginUserInfo().getUserName());
+        return "ok";
+    }
+
+    @RequestMapping("perm/add")
+    public String test4() {
+        System.out.print(LoginUserInfo.getLoginUserInfo().getUserName());
+        return "ok";
+    }
+
+    @RequestMapping("url/add")
+    public String test5() {
+        System.out.print(LoginUserInfo.getLoginUserInfo().getUserName());
+        return "ok";
     }
 }

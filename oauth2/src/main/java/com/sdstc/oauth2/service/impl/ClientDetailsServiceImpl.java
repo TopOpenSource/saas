@@ -1,10 +1,10 @@
 package com.sdstc.oauth2.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.sdstc.dynamicds.constant.DataSourceConstant;
 import com.sdstc.dynamicds.start.DBContextHolder;
-import com.sdstc.dynamicds.constant.TenantConstant;
+import com.sdstc.oauth2.dao.ClientDao;
+import com.sdstc.oauth2.model.Client;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,10 +14,8 @@ import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Service;
 
-import com.sdstc.oauth2.dao.ClientDao;
-import com.sdstc.oauth2.model.Client;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 客户端详情
@@ -34,7 +32,8 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 	@Override
 	public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
 		//设置默认数据源
-		DBContextHolder.setDbKey(TenantConstant.defaultDBKey);
+		DBContextHolder.setDbKey(DataSourceConstant.defaultTenantId);
+
 		log.debug("clientDetailsServiceJdbc"+clientId);
 
 		Client client=clientDao.getClientById(clientId);

@@ -17,7 +17,6 @@
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<result column="url" property="url" />
-
 	</resultMap>
 
 	<resultMap id="UserInfoMap" type="com.sdstc.oauth2.model.UserInfo">
@@ -31,7 +30,7 @@
 		<result column="email" property="email" />
 	</resultMap>
 
-	<resultMap id="TenantMap" type="com.sdstc.dynamicds.model.Tenant">
+	<resultMap id="TenantMap" type="com.sdstc.oauth2.model.Tenant">
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<result column="state" property="state" />
@@ -43,56 +42,55 @@
         select 
           t2.id,t2.code,t2.name 
         from 
-          system.sys_user_role t1
-		  left join system.sys_role t2 on t1.role_id=t2.id
+          sys_user_role t1
+		  left join sys_role t2 on t1.right_id=t2.id
 		where 
 		t1.is_delete = '0' 
-		and t1.user_account=#{account}
+		and t1.left_id=#{userId}
 	</select>
 
 	<select id="getPermsByUser" resultMap="PermMap">
-       select 
-         t3.id,t3.code,t3.name 
-       from
-		 system.sys_role_perm t1
-		 left join system.sys_user_role t2 on t1.role_id=t2.role_id
-		 left join system.sys_perm t3 on t1.perm_id=t3.id
-      where 
-		 t2.user_account=#{account}
-		 and t2.is_delete = '0'
+		SELECT
+			t3.id,t3.name,t3.`code`
+		FROM
+			sys_role_perm t2
+			left join sys_perm t3 on t2.right_id=t3.id
+		WHERE
+			t2.is_delete='0'
+		  and t3.is_delete='0'
+		  and t2.left_id IN ( SELECT t1.right_id FROM sys_user_role t1 WHERE t1.left_id = #{userId} and t1.is_delete='0' )
 	</select>
 
 	<select id="getUrlsByUser" resultMap="UrlMap">
-		select  t3.user_account,t3.role_id,t1.perm_id,t1.url_id,t4.url
-		from  system.sys_perm_url t1
-		 FULL JOIN  system.sys_role_perm t2 on t1.perm_id = t2.perm_id
-		 FULL JOIN  system.sys_user_role t3 on t3.role_id=t2.role_id
-		 left JOIN  system.sys_url t4 on t1.url_id=t4.id
-        where
-			t1.is_delete = '0'
-        and t2.is_delete = '0'
-		and t3.is_delete = '0'
-		and t4.is_delete = '0'
-        and t3.user_account=#{account}
-
+		select DISTINCT(t4.url),t4.`name`
+		from sys_perm_url t3
+		left join sys_url t4 on t3.right_id=t4.id
+		where
+		  t3.is_delete='0'
+		  and t4.is_delete='0'
+		  and
+				t3.id in
+				(
+					SELECT t2.right_id FROM sys_role_perm t2
+					WHERE
+					t2.is_delete='0'
+					and t2.left_id IN ( SELECT t1.right_id FROM sys_user_role t1 WHERE t1.left_id = #{userId} and t1.is_delete='0' )
+				)
 	</select>
 
-	<select id="getTenantsByUserAccount" resultMap="TenantMap">
+	<select id="getTenantsByUserId" resultMap="TenantMap">
          SELECT 
             t2.*
 		 FROM
-		    system.user_tenant t1
-		    left join system.tenant t2 on t1.tenant_id=t2.id
+		    sys_user_tenant t1
+		    left join sys_tenant t2 on t1.tenant_id=t2.id
          <where>
-             <if test="account!=null">
-             and t1.user_account=#{account}
-             </if>
+			 and t1.user_id=#{userId}
 			 and t1.state='1'
          </where>  
 	</select>
 
 	<select id="getUser" resultMap="UserInfoMap">
-
 		select
 		aa.id,
 		aa.name,

@@ -59,15 +59,26 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             LoginUserInfo userInfo = tokenService.hasPerm(url);
             //验证是否有权限
             if(userInfo.getHasPerm()){
-                return chain.filter(this.addTenantId2Header(exchange,String.valueOf(userInfo.getTenantId())));
+                return chain.filter(this.addTenantId2Header(exchange,userInfo));
             }else{
                 return this.unauthorized(exchange);
             }
         }
     }
 
-    private ServerWebExchange addTenantId2Header(ServerWebExchange exchange,String tenantId){
-        ServerHttpRequest host = exchange.getRequest().mutate().header(SystemConstant.TENANTID_HEADER, tenantId).build();
+    /**
+     * 将登录信息加入header
+     * @param exchange
+     * @param loginUserInfo
+     * @return
+     */
+    private ServerWebExchange addTenantId2Header(ServerWebExchange exchange,LoginUserInfo loginUserInfo){
+        ServerHttpRequest host = exchange.getRequest().mutate().header(SystemConstant.TENANTID_HEADER, String.valueOf(loginUserInfo.getTenantId()))
+                                                               .header(SystemConstant.LOGIN_USER_ID,String.valueOf(loginUserInfo.getId()))
+                                                               .header(SystemConstant.LOGIN_USER_NAME,loginUserInfo.getUserName())
+                                                               .header(SystemConstant.LOGIN_USER_ACCOUNT,loginUserInfo.getUserAccount())
+                                                               .build();
+
         ServerWebExchange build = exchange.mutate().request(host).build();
         return build;
     }

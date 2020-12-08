@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class LoginUserInfo {
+    private Long id;
     private String userAccount;
     private String userName;
     private Long tenantId;
@@ -28,4 +29,22 @@ public class LoginUserInfo {
         }
         this.userAuths.add(auth);
     }
+
+    private static final ThreadLocal<LoginUserInfo> LoginUser = new ThreadLocal<>();
+
+    public static void setLoginUserInfo(String id,String userAccount,String userName,String tenantId){
+        LoginUserInfo loginUserInfo=new LoginUserInfo();
+        loginUserInfo.setId(Long.valueOf(id));
+        loginUserInfo.setUserAccount(userAccount);
+        loginUserInfo.setUserName(userName);
+        loginUserInfo.setTenantId(Long.valueOf(tenantId));
+
+        LoginUser.set(loginUserInfo);
+    }
+
+    public static LoginUserInfo getLoginUserInfo() {
+        return LoginUser.get();
+    }
+
+
 }

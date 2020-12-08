@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.system.dao.SysPermDao">
+	
+	<resultMap id="SysPermMap" type="com.sdstc.system.model.SysPerm">
+	    <id column="id" property="id" />
+	    <result column="gmt_create" property="gmtCreate" />
+	    <result column="gmt_modified" property="gmtModified" />
+	    <result column="create_account" property="createAccount" />
+	    <result column="modified_account" property="modifiedAccount" />
+	    <result column="is_delete" property="isDelete" />
+	    <result column="name" property="name" />
+	    <result column="code" property="code" />
+	    <result column="index" property="index" />
+	    <result column="path" property="path" />
+	    <result column="p_id" property="pId" />
+	</resultMap>
+	
+    <sql id="SysPermCols">
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,code,index,path,p_id
+    </sql>
+    
+    <sql id="SysPermProps">
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{code},#{index},#{path},#{pId}
+    </sql>
+    
+    <sql id="SysPermWhere">
+      
+    </sql>
+    
+    <sql id="SysPermDtoWhere">
+      
+    </sql>
+	
+	<select id="selectByDto"  parameterType="com.sdstc.system.model.SysPerm" resultMap="SysPermMap">
+		select
+			<include refid="SysPermCols"></include>
+		from sys_perm
+		<where>
+		    <include refid="SysPermWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectCountByDto"  parameterType="com.sdstc.system.model.SysPerm" resultType="Integer">
+		select
+			count(*)
+		from sys_perm
+		<where>
+		    <include refid="SysPermWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectPageByDto" resultMap="SysPermMap">
+		select
+			<include refid="SysPermCols"></include>
+		from sys_perm
+		<where>
+		    <include refid="SysPermDtoWhere"></include>
+		</where>
+		limit #{pageDto.start},#{pageDto.pageSize}
+	</select>
+</mapper>

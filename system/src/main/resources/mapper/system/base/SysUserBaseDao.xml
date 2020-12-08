@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.system.dao.base.SysUserBaseDao">
+	
+	<resultMap id="SysUserMap" type="com.sdstc.system.model.SysUser">
+	    <id column="id" property="id" />
+	    <result column="gmt_create" property="gmtCreate" />
+	    <result column="gmt_modified" property="gmtModified" />
+	    <result column="create_account" property="createAccount" />
+	    <result column="modified_account" property="modifiedAccount" />
+	    <result column="is_delete" property="isDelete" />
+	    <result column="name" property="name" />
+	    <result column="account" property="account" />
+	    <result column="phone" property="phone" />
+	    <result column="email" property="email" />
+	    <result column="pwd" property="pwd" />
+	    <result column="state" property="state" />
+	</resultMap>
+	
+    <sql id="SysUserCols">
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,account,phone,email,pwd,state
+    </sql>
+    
+    <sql id="SysUserProps">
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{account},#{phone},#{email},#{pwd},#{state}
+    </sql>
+    
+    <insert id="insert" parameterType="com.sdstc.system.model.SysUser">
+        insert into sys_user
+        (<include refid="SysUserCols"></include>)
+        values
+        (<include refid="SysUserProps"></include>)
+    </insert>
+        
+    <update id="updateSelectiveByPK" parameterType="com.sdstc.system.model.SysUser">
+		update sys_user
+		<set>
+		  
+	        <if test="gmtCreate != null">
+		        gmt_create = #{gmtCreate},
+		    </if>
+		  
+	        <if test="gmtModified != null">
+		        gmt_modified = #{gmtModified},
+		    </if>
+		  
+	        <if test="createAccount != null and createAccount != ''">
+		        create_account = #{createAccount},
+		    </if>
+		  
+	        <if test="modifiedAccount != null and modifiedAccount != ''">
+		        modified_account = #{modifiedAccount},
+		    </if>
+		  
+	        <if test="isDelete != null and isDelete != ''">
+		        is_delete = #{isDelete},
+		    </if>
+		  
+	        <if test="name != null and name != ''">
+		        name = #{name},
+		    </if>
+		  
+	        <if test="account != null and account != ''">
+		        account = #{account},
+		    </if>
+		  
+	        <if test="phone != null and phone != ''">
+		        phone = #{phone},
+		    </if>
+		  
+	        <if test="email != null and email != ''">
+		        email = #{email},
+		    </if>
+		  
+	        <if test="pwd != null and pwd != ''">
+		        pwd = #{pwd},
+		    </if>
+		  
+	        <if test="state != null and state != ''">
+		        state = #{state},
+		    </if>
+		</set>
+		<where>
+		  id = #{id} 
+		</where> 
+	</update>
+	
+	<update id="updateByPK" parameterType="com.sdstc.system.model.SysUser">
+		update sys_user
+		<set>
+	    gmt_create = #{gmtCreate},
+	    gmt_modified = #{gmtModified},
+	    create_account = #{createAccount},
+	    modified_account = #{modifiedAccount},
+	    is_delete = #{isDelete},
+	    name = #{name},
+	    account = #{account},
+	    phone = #{phone},
+	    email = #{email},
+	    pwd = #{pwd},
+	    state = #{state},
+		</set>
+		<where>
+		  id = #{id} 
+		</where> 
+	</update>
+	
+	<delete id="deleteByPK">
+	   <!--存在删除状态键则逻辑删除-->
+		update sys_user
+		set is_delete = '1'
+		<where>
+		  id = #{id} 
+		</where> 
+	</delete>
+	
+	<select id="selectByPK" resultMap="SysUserMap">
+		select
+			<include refid="SysUserCols"></include>
+		from sys_user
+		<where>
+		  id = #{id} 
+		  and is_delete = '0'
+		</where> 
+	</select>
+	
+</mapper>

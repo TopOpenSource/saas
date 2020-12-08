@@ -2,8 +2,10 @@ package com.sdstc.oauth2.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserInfo {
+public class UserInfo implements Serializable {
 	private Long id;
 	private String account;
 	private String name;

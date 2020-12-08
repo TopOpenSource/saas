@@ -21,7 +21,7 @@ public class AuthController {
         OAuth2Authentication oauth2=(OAuth2Authentication) principal;
         UserSecurity user=(UserSecurity) oauth2.getUserAuthentication().getPrincipal();
         LoginUserInfo loginUserInfo=user.parse2LoginUserInfo();
-        loginUserInfo.setHasPerm(roleService.hasPerm(loginUserInfo.getUserAccount(),url,String.valueOf(loginUserInfo.getTenantId())));
+        loginUserInfo.setHasPerm(roleService.hasPerm(loginUserInfo.getId(),url,String.valueOf(loginUserInfo.getTenantId())));
         return loginUserInfo;
     }
 

@@ -1,7 +1,7 @@
 package com.sdstc.oauth2.service.impl;
 
+import com.sdstc.dynamicds.constant.DataSourceConstant;
 import com.sdstc.dynamicds.start.DBContextHolder;
-import com.sdstc.dynamicds.constant.TenantConstant;
 import com.sdstc.oauth2.dao.UserDao;
 import com.sdstc.oauth2.model.Perm;
 import com.sdstc.oauth2.model.Role;
@@ -21,23 +21,23 @@ public class RoleServiceImpl implements RoleService {
     private UserDao userDao;
 
     @Override
-    public List<Role> getRolesByUser(String account,String tenantId) {
+    public List<Role> getRolesByUser(Long userId,String tenantId) {
         DBContextHolder.setDbKey(tenantId);
-        List<Role> roles = userDao.getRolesByUser(account);
-        DBContextHolder.setDbKey(TenantConstant.defaultDBKey);
+        List<Role> roles = userDao.getRolesByUser(userId);
+        DBContextHolder.setDbKey(DataSourceConstant.defaultTenantId);
         return roles;
     }
 
     @Override
-    public List<Perm> getPermsByUser(String account,String tenantId) {
+    public List<Perm> getPermsByUser(Long userId,String tenantId) {
         DBContextHolder.setDbKey(tenantId);
-        List<Perm> perms = userDao.getPermsByUser(account);
-        DBContextHolder.setDbKey(TenantConstant.defaultDBKey);
+        List<Perm> perms = userDao.getPermsByUser(userId);
+        DBContextHolder.setDbKey(DataSourceConstant.defaultTenantId);
         return  perms;
     }
 
     @Override
-    public Boolean hasPerm(String account,String url,String tenantId) {
+    public Boolean hasPerm(Long userId,String url,String tenantId) {
         DBContextHolder.setDbKey(tenantId);
         boolean hasPerm=false;
         //规则验证
@@ -45,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
         /**
          * 获取url并于请求的url进行比对
          */
-        List<Url> urls=userDao.getUrlsByUser(account);
+        List<Url> urls=userDao.getUrlsByUser(userId);
 
         List<Url> matchUrl=urls.stream().filter(x -> {
             return matcher.match(x.getUrl(),url);
@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
             hasPerm=true;
         }
 
-        DBContextHolder.setDbKey(TenantConstant.defaultDBKey);
+        DBContextHolder.setDbKey(DataSourceConstant.defaultTenantId);
         return hasPerm;
     }
 }

@@ -9,7 +9,6 @@
 			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
 			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />
 		</Console>
-
 		<RollingFile name="RollingFileInfo" fileName="${logFilePath}/info/info.log" filePattern="${logFilePath}/info/info-%d{yyyy-MM-dd}.log">
 			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
 			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n" />

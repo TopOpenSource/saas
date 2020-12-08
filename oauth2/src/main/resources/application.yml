@@ -18,10 +18,10 @@ spring:
 #主数据源
 datasources:
   master:
-    url: jdbc:postgresql://172.16.10.145:30027/site_management
-    username: postgres
+    url: jdbc:mysql://172.16.10.145:30017/site?characterEncoding=utf8&allowMultiQueries=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
     password: qwe123-=
-    driverClassName: org.postgresql.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
 
 #redis连接
