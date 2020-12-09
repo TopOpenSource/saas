@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.system.dao.SysTenantDao">
+	
+	<resultMap id="SysTenantMap" type="com.sdstc.system.model.SysTenant">
+	    <id column="id" property="id" />
+	    <result column="gmt_create" property="gmtCreate" />
+	    <result column="gmt_modified" property="gmtModified" />
+	    <result column="create_account" property="createAccount" />
+	    <result column="modified_account" property="modifiedAccount" />
+	    <result column="is_delete" property="isDelete" />
+	    <result column="name" property="name" />
+	    <result column="state" property="state" />
+	</resultMap>
+	
+    <sql id="SysTenantCols">
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,state
+    </sql>
+    
+    <sql id="SysTenantProps">
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{state}
+    </sql>
+    
+    <sql id="SysTenantWhere">
+      
+    </sql>
+    
+    <sql id="SysTenantDtoWhere">
+      
+    </sql>
+	
+	<select id="selectByDto"  parameterType="com.sdstc.system.model.SysTenant" resultMap="SysTenantMap">
+		select
+			<include refid="SysTenantCols"></include>
+		from sys_tenant
+		<where>
+		    <include refid="SysTenantWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectCountByDto"  parameterType="com.sdstc.system.model.SysTenant" resultType="Integer">
+		select
+			count(*)
+		from sys_tenant
+		<where>
+		    <include refid="SysTenantWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectPageByDto" resultMap="SysTenantMap">
+		select
+			<include refid="SysTenantCols"></include>
+		from sys_tenant
+		<where>
+		    <include refid="SysTenantDtoWhere"></include>
+		</where>
+		limit #{pageDto.start},#{pageDto.pageSize}
+	</select>
+</mapper>

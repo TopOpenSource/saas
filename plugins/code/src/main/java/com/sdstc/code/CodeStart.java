@@ -15,19 +15,19 @@ import com.sdstc.code.utils.freemarker.GeServiceImpl;
 public class CodeStart {
 	public static void main(String[] args) {
 		// 路径 放 类
-		String basePath = "D:\\test\\sys_file\\";
+		String basePath = "D:\\test\\sys_tenant\\";
 		// 放mapper
-		String basePath2 = "D:\\test\\sys_file\\";
+		String basePath2 = "D:\\test\\sys_tenant\\";
 
 		// 服务名称
-		String serviceName = "sysservice";
+		String serviceName = "system";
 
 		// 数据源
 		String jdbcUrl = "172.16.10.145:30017";
 		String scheme = "system";
 		String userName = "root";
 		String pwd = "qwe123-=";
-		String tableName = "sys_file";
+		String tableName = "sys_tenant";
          
 		// dao包名  推荐默认
 		String daoPackage = "com.sdstc." + serviceName + ".dao";
