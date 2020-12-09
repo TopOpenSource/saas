@@ -16,9 +16,9 @@ public interface SysUserService {
 
 	void updateSelectiveByPK(SysUser dto);
 
-	void deleteByPK(Long id);
+	void deleteByPK(Long id,Long tenantId);
 
-	SysUser selectByPK(Long id);
+	SysUser selectByPK(Long id,Long tenantId);
 
 	List<SysUser> selectByDto(SysUser dto);
 	

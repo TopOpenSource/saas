@@ -16,9 +16,9 @@ public interface SysPermService {
 
 	void updateSelectiveByPK(SysPerm dto);
 
-	void deleteByPK(Long id);
+	void deleteByPK(Long id,Long tenantId);
 
-	SysPerm selectByPK(Long id);
+	SysPerm selectByPK(Long id,Long tenantId);
 
 	List<SysPerm> selectByDto(SysPerm dto);
 	

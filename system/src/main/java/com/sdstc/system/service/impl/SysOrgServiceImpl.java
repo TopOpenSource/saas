@@ -1,5 +1,6 @@
 package com.sdstc.system.service.impl;
 
+import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.Snowflake;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class SysOrgServiceImpl implements SysOrgService{
 	    Date now=DateUtils.getNow();
 	    dto.setId(snowflake.nextId());
 	    dto.setGmtCreate(now);
-	    
+        dto.setCreateAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysOrgDao.insert(dto);
 	}
 
@@ -38,7 +39,8 @@ public class SysOrgServiceImpl implements SysOrgService{
 	public void updateByPK(SysOrg dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
+
 		sysOrgDao.updateByPK(dto);
 	}
 
@@ -46,18 +48,18 @@ public class SysOrgServiceImpl implements SysOrgService{
 	public void updateSelectiveByPK(SysOrg dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysOrgDao.updateSelectiveByPK(dto);
 	}
 
 	@Override
-	public void deleteByPK(Long id) {
-		sysOrgDao.deleteByPK(id);
+	public void deleteByPK(Long id,Long tenantId) {
+		sysOrgDao.deleteByPK(id,tenantId);
 	}
 
 	@Override
-	public SysOrg selectByPK(Long id) {
-		return sysOrgDao.selectByPK(id);
+	public SysOrg selectByPK(Long id,Long tenantId) {
+		return sysOrgDao.selectByPK(id,tenantId);
 	}
 
 	@Override

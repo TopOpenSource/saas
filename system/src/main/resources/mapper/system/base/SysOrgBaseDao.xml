@@ -9,6 +9,7 @@
 	    <result column="create_account" property="createAccount" />
 	    <result column="modified_account" property="modifiedAccount" />
 	    <result column="is_delete" property="isDelete" />
+	    <result column="tenant_id" property="tenantId" />
 	    <result column="name" property="name" />
 	    <result column="code" property="code" />
 	    <result column="p_id" property="pId" />
@@ -18,11 +19,11 @@
 	</resultMap>
 	
     <sql id="SysOrgCols">
-      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,code,p_id,index,path,type
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,tenant_id,name,code,p_id,index,path,type
     </sql>
     
     <sql id="SysOrgProps">
-      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{code},#{pId},#{index},#{path},#{type}
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{tenantId},#{name},#{code},#{pId},#{index},#{path},#{type}
     </sql>
     
     <insert id="insert" parameterType="com.sdstc.system.model.SysOrg">
@@ -56,6 +57,10 @@
 		        is_delete = #{isDelete},
 		    </if>
 		  
+	        <if test="tenantId != null">
+		        tenant_id = #{tenantId},
+		    </if>
+		  
 	        <if test="name != null and name != ''">
 		        name = #{name},
 		    </if>
@@ -82,6 +87,7 @@
 		</set>
 		<where>
 		  id = #{id} 
+		  and tenant_id = #{tenantId}  
 		</where> 
 	</update>
 	
@@ -93,6 +99,7 @@
 	    create_account = #{createAccount},
 	    modified_account = #{modifiedAccount},
 	    is_delete = #{isDelete},
+	    tenant_id = #{tenantId},
 	    name = #{name},
 	    code = #{code},
 	    p_id = #{pId},
@@ -102,6 +109,7 @@
 		</set>
 		<where>
 		  id = #{id} 
+		  and tenant_id = #{tenantId} 
 		</where> 
 	</update>
 	
@@ -111,6 +119,7 @@
 		set is_delete = '1'
 		<where>
 		  id = #{id} 
+		  and tenant_id = #{tenantId}  
 		</where> 
 	</delete>
 	
@@ -120,6 +129,7 @@
 		from sys_org
 		<where>
 		  id = #{id} 
+		  and tenant_id = #{tenantId}  
 		  and is_delete = '0'
 		</where> 
 	</select>

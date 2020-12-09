@@ -75,6 +75,6 @@ public class DataSourceService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //this.initDB();
+        this.initDB();
     }
 }

@@ -15,6 +15,10 @@ public class SysOrg extends BaseModel {
 	 */
     private Long id;
     /**
+	 * 租户ID
+	 */
+    private Long tenantId;
+    /**
 	 * 组织名称
 	 */
     private String name;

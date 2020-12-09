@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Params {
 	//租户ID
-	public static String tenantCol="customer_id";
+	public static String tenantCol="tenant_id";
 	//删除状态
 	public static String delCol="is_delete";
 	

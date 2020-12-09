@@ -9,7 +9,7 @@ public interface SysRoleBaseDao {
    void  insert(SysRole dto);
    void  updateByPK(SysRole dto);
    void  updateSelectiveByPK(SysRole dto);
-   void  deleteByPK(@Param("id") Long id);
-   SysRole  selectByPK(@Param("id") Long id);
+   void  deleteByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
+   SysRole  selectByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
    
 }

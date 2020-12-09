@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 结果dto
+ * @author cheng
+ */
 @Data
 public class ResultDto implements Serializable {
 	private Integer result;

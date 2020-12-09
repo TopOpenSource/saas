@@ -16,9 +16,9 @@ public interface SysOrgService {
 
 	void updateSelectiveByPK(SysOrg dto);
 
-	void deleteByPK(Long id);
+	void deleteByPK(Long id,Long tenantId);
 
-	SysOrg selectByPK(Long id);
+	SysOrg selectByPK(Long id,Long tenantId);
 
 	List<SysOrg> selectByDto(SysOrg dto);
 	

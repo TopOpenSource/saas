@@ -1,5 +1,6 @@
 package ${servicePackage};
 
+import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.Snowflake;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ${entityName}ServiceImpl implements ${entityName}Service{
 	    Date now=DateUtils.getNow();
 	    dto.setId(snowflake.nextId());
 	    dto.setGmtCreate(now);
-	    
+        dto.setCreateAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		${entityNameLowerCase}Dao.insert(dto);
 	}
 
@@ -38,7 +39,8 @@ public class ${entityName}ServiceImpl implements ${entityName}Service{
 	public void updateByPK(${entityName} dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
+
 		${entityNameLowerCase}Dao.updateByPK(dto);
 	}
 
@@ -46,7 +48,7 @@ public class ${entityName}ServiceImpl implements ${entityName}Service{
 	public void updateSelectiveByPK(${entityName} dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		${entityNameLowerCase}Dao.updateSelectiveByPK(dto);
 	}
 

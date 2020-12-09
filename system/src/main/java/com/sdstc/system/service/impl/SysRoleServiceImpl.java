@@ -1,5 +1,6 @@
 package com.sdstc.system.service.impl;
 
+import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.Snowflake;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class SysRoleServiceImpl implements SysRoleService{
 	    Date now=DateUtils.getNow();
 	    dto.setId(snowflake.nextId());
 	    dto.setGmtCreate(now);
-	    
+        dto.setCreateAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysRoleDao.insert(dto);
 	}
 
@@ -38,7 +39,8 @@ public class SysRoleServiceImpl implements SysRoleService{
 	public void updateByPK(SysRole dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
+
 		sysRoleDao.updateByPK(dto);
 	}
 
@@ -46,18 +48,18 @@ public class SysRoleServiceImpl implements SysRoleService{
 	public void updateSelectiveByPK(SysRole dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysRoleDao.updateSelectiveByPK(dto);
 	}
 
 	@Override
-	public void deleteByPK(Long id) {
-		sysRoleDao.deleteByPK(id);
+	public void deleteByPK(Long id,Long tenantId) {
+		sysRoleDao.deleteByPK(id,tenantId);
 	}
 
 	@Override
-	public SysRole selectByPK(Long id) {
-		return sysRoleDao.selectByPK(id);
+	public SysRole selectByPK(Long id,Long tenantId) {
+		return sysRoleDao.selectByPK(id,tenantId);
 	}
 
 	@Override

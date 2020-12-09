@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 @EnableConfigurationProperties
 @MapperScan("com.sdstc.**.dao")
 public class Oauth2Start {
+
     public static void main(String[] args) {
         SpringApplication.run(Oauth2Start.class, args);
     }

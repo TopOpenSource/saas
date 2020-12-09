@@ -9,6 +9,7 @@
 	    <result column="create_account" property="createAccount" />
 	    <result column="modified_account" property="modifiedAccount" />
 	    <result column="is_delete" property="isDelete" />
+	    <result column="tenant_id" property="tenantId" />
 	    <result column="name" property="name" />
 	    <result column="code" property="code" />
 	    <result column="index" property="index" />
@@ -17,11 +18,11 @@
 	</resultMap>
 	
     <sql id="SysRoleCols">
-      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,code,index,path,p_id
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,tenant_id,name,code,index,path,p_id
     </sql>
     
     <sql id="SysRoleProps">
-      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{code},#{index},#{path},#{pId}
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{tenantId},#{name},#{code},#{index},#{path},#{pId}
     </sql>
     
     <sql id="SysRoleWhere">

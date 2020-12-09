@@ -9,6 +9,7 @@
 	    <result column="create_account" property="createAccount" />
 	    <result column="modified_account" property="modifiedAccount" />
 	    <result column="is_delete" property="isDelete" />
+	    <result column="tenant_id" property="tenantId" />
 	    <result column="name" property="name" />
 	    <result column="account" property="account" />
 	    <result column="phone" property="phone" />
@@ -18,11 +19,11 @@
 	</resultMap>
 	
     <sql id="SysUserCols">
-      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,account,phone,email,pwd,state
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,tenant_id,name,account,phone,email,pwd,state
     </sql>
     
     <sql id="SysUserProps">
-      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{account},#{phone},#{email},#{pwd},#{state}
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{tenantId},#{name},#{account},#{phone},#{email},#{pwd},#{state}
     </sql>
     
     <sql id="SysUserWhere">

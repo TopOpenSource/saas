@@ -9,7 +9,7 @@ public interface SysUserBaseDao {
    void  insert(SysUser dto);
    void  updateByPK(SysUser dto);
    void  updateSelectiveByPK(SysUser dto);
-   void  deleteByPK(@Param("id") Long id);
-   SysUser  selectByPK(@Param("id") Long id);
+   void  deleteByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
+   SysUser  selectByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
    
 }

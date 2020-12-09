@@ -15,6 +15,10 @@ public class SysUser extends BaseModel {
 	 */
     private Long id;
     /**
+	 * 租户ID
+	 */
+    private Long tenantId;
+    /**
 	 * 姓名
 	 */
     private String name;

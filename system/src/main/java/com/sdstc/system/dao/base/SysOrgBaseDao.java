@@ -9,7 +9,7 @@ public interface SysOrgBaseDao {
    void  insert(SysOrg dto);
    void  updateByPK(SysOrg dto);
    void  updateSelectiveByPK(SysOrg dto);
-   void  deleteByPK(@Param("id") Long id);
-   SysOrg  selectByPK(@Param("id") Long id);
+   void  deleteByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
+   SysOrg  selectByPK(@Param("id") Long id,@Param("tenantId") Long tenantId);
    
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdstc.sysservice.dao.SysFileDao">
+	
+	<resultMap id="SysFileMap" type="com.sdstc.sysservice.model.SysFile">
+	    <id column="id" property="id" />
+	    <result column="gmt_create" property="gmtCreate" />
+	    <result column="gmt_modified" property="gmtModified" />
+	    <result column="create_account" property="createAccount" />
+	    <result column="modified_account" property="modifiedAccount" />
+	    <result column="is_delete" property="isDelete" />
+	    <result column="tenant_id" property="tenantId" />
+	    <result column="name" property="name" />
+	    <result column="size" property="size" />
+	    <result column="path" property="path" />
+	    <result column="type" property="type" />
+	    <result column="image_high" property="imageHigh" />
+	    <result column="image_width" property="imageWidth" />
+	    <result column="store_type" property="storeType" />
+	    <result column="bucket" property="bucket" />
+	</resultMap>
+	
+    <sql id="SysFileCols">
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,tenant_id,name,size,path,type,image_high,image_width,store_type,bucket
+    </sql>
+    
+    <sql id="SysFileProps">
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{tenantId},#{name},#{size},#{path},#{type},#{imageHigh},#{imageWidth},#{storeType},#{bucket}
+    </sql>
+    
+    <sql id="SysFileWhere">
+      
+    </sql>
+    
+    <sql id="SysFileDtoWhere">
+      
+    </sql>
+	
+	<select id="selectByDto"  parameterType="com.sdstc.sysservice.model.SysFile" resultMap="SysFileMap">
+		select
+			<include refid="SysFileCols"></include>
+		from sys_file
+		<where>
+		    <include refid="SysFileWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectCountByDto"  parameterType="com.sdstc.sysservice.model.SysFile" resultType="Integer">
+		select
+			count(*)
+		from sys_file
+		<where>
+		    <include refid="SysFileWhere"></include>
+		</where>
+	</select>
+	
+	<select id="selectPageByDto" resultMap="SysFileMap">
+		select
+			<include refid="SysFileCols"></include>
+		from sys_file
+		<where>
+		    <include refid="SysFileDtoWhere"></include>
+		</where>
+		limit #{pageDto.start},#{pageDto.pageSize}
+	</select>
+</mapper>

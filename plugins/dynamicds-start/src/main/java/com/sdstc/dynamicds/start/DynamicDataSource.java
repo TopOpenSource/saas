@@ -60,6 +60,7 @@ public class DynamicDataSource extends AbstractDataSource implements Initializin
         String action=DBContextHolder.getReadOrWrite();
 
         if (key == null) {
+           //默认数据源
             key = this.defaultDataSourceKey;
         }
 

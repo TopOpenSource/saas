@@ -15,6 +15,10 @@ public class SysPerm extends BaseModel {
 	 */
     private Long id;
     /**
+	 * 租户ID
+	 */
+    private Long tenantId;
+    /**
 	 * 权限名称
 	 */
     private String name;

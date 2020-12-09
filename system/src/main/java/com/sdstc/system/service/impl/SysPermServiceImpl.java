@@ -1,5 +1,6 @@
 package com.sdstc.system.service.impl;
 
+import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.Snowflake;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class SysPermServiceImpl implements SysPermService{
 	    Date now=DateUtils.getNow();
 	    dto.setId(snowflake.nextId());
 	    dto.setGmtCreate(now);
-	    
+        dto.setCreateAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysPermDao.insert(dto);
 	}
 
@@ -38,7 +39,8 @@ public class SysPermServiceImpl implements SysPermService{
 	public void updateByPK(SysPerm dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
+
 		sysPermDao.updateByPK(dto);
 	}
 
@@ -46,18 +48,18 @@ public class SysPermServiceImpl implements SysPermService{
 	public void updateSelectiveByPK(SysPerm dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysPermDao.updateSelectiveByPK(dto);
 	}
 
 	@Override
-	public void deleteByPK(Long id) {
-		sysPermDao.deleteByPK(id);
+	public void deleteByPK(Long id,Long tenantId) {
+		sysPermDao.deleteByPK(id,tenantId);
 	}
 
 	@Override
-	public SysPerm selectByPK(Long id) {
-		return sysPermDao.selectByPK(id);
+	public SysPerm selectByPK(Long id,Long tenantId) {
+		return sysPermDao.selectByPK(id,tenantId);
 	}
 
 	@Override

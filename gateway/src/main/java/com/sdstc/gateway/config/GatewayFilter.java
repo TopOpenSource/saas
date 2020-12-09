@@ -75,7 +75,6 @@ public class GatewayFilter implements GlobalFilter, Ordered {
     private ServerWebExchange addTenantId2Header(ServerWebExchange exchange,LoginUserInfo loginUserInfo){
         ServerHttpRequest host = exchange.getRequest().mutate().header(SystemConstant.TENANTID_HEADER, String.valueOf(loginUserInfo.getTenantId()))
                                                                .header(SystemConstant.LOGIN_USER_ID,String.valueOf(loginUserInfo.getId()))
-                                                               .header(SystemConstant.LOGIN_USER_NAME,loginUserInfo.getUserName())
                                                                .header(SystemConstant.LOGIN_USER_ACCOUNT,loginUserInfo.getUserAccount())
                                                                .build();
 
@@ -101,7 +100,7 @@ public class GatewayFilter implements GlobalFilter, Ordered {
             MultiValueMap<String, String> params=request.getQueryParams();
             tokens=params.get(SystemConstant.AUTHORIZATION_HEADER);
             if (tokens != null && tokens.size() == 1) {
-                return tokens.get(0);
+                return "Bearer  "+tokens.get(0);
             }else{
                 return null;
             }

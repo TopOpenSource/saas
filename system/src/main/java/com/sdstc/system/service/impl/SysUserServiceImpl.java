@@ -1,8 +1,8 @@
 package com.sdstc.system.service.impl;
 
-import java.util.List;
-
+import com.sdstc.pub.dto.LoginUserInfo;
 import com.sdstc.pub.utils.Snowflake;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sdstc.system.dao.SysUserDao;
@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @Service("sysUserService")
 @Log4j2
 public class SysUserServiceImpl implements SysUserService{
-	private static Snowflake snowflake = new Snowflake();
+    private static Snowflake snowflake = new Snowflake();
 
     @Autowired
 	private SysUserDao sysUserDao;
@@ -31,7 +31,7 @@ public class SysUserServiceImpl implements SysUserService{
 	    Date now=DateUtils.getNow();
 	    dto.setId(snowflake.nextId());
 	    dto.setGmtCreate(now);
-	    
+        dto.setCreateAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysUserDao.insert(dto);
 	}
 
@@ -39,7 +39,8 @@ public class SysUserServiceImpl implements SysUserService{
 	public void updateByPK(SysUser dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
+
 		sysUserDao.updateByPK(dto);
 	}
 
@@ -47,18 +48,18 @@ public class SysUserServiceImpl implements SysUserService{
 	public void updateSelectiveByPK(SysUser dto) {
 	    Date now=DateUtils.getNow();
 		dto.setGmtModified(now);
-		
+        dto.setModifiedAccount(LoginUserInfo.getLoginUserInfo().getUserAccount());
 		sysUserDao.updateSelectiveByPK(dto);
 	}
 
 	@Override
-	public void deleteByPK(Long id) {
-		sysUserDao.deleteByPK(id);
+	public void deleteByPK(Long id,Long tenantId) {
+		sysUserDao.deleteByPK(id,tenantId);
 	}
 
 	@Override
-	public SysUser selectByPK(Long id) {
-		return sysUserDao.selectByPK(id);
+	public SysUser selectByPK(Long id,Long tenantId) {
+		return sysUserDao.selectByPK(id,tenantId);
 	}
 
 	@Override

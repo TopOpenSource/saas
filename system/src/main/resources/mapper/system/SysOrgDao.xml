@@ -9,6 +9,7 @@
 	    <result column="create_account" property="createAccount" />
 	    <result column="modified_account" property="modifiedAccount" />
 	    <result column="is_delete" property="isDelete" />
+	    <result column="tenant_id" property="tenantId" />
 	    <result column="name" property="name" />
 	    <result column="code" property="code" />
 	    <result column="p_id" property="pId" />
@@ -18,11 +19,11 @@
 	</resultMap>
 	
     <sql id="SysOrgCols">
-      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,name,code,p_id,index,path,type
+      id,gmt_create,gmt_modified,create_account,modified_account,is_delete,tenant_id,name,code,p_id,index,path,type
     </sql>
     
     <sql id="SysOrgProps">
-      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{name},#{code},#{pId},#{index},#{path},#{type}
+      #{id},#{gmtCreate},#{gmtModified},#{createAccount},#{modifiedAccount},#{isDelete},#{tenantId},#{name},#{code},#{pId},#{index},#{path},#{type}
     </sql>
     
     <sql id="SysOrgWhere">

@@ -15,6 +15,10 @@ public class SysRole extends BaseModel {
 	 */
     private Long id;
     /**
+	 * 租户ID
+	 */
+    private Long tenantId;
+    /**
 	 * 名称
 	 */
     private String name;

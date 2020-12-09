@@ -9,4 +9,7 @@ public class SystemConstant {
     public static final String LOGIN_USER_ID = "LOGINUSERID";
     public static final String LOGIN_USER_ACCOUNT = "LOGINUSERACCOUNT";
     public static final String LOGIN_USER_NAME = "LOGINUSERNAME";
+
+    public static final String CLIENT_ID = "client1";
+    public static final String CLIENT_SECRET = "111111";
 }

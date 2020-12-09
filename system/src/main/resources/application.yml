@@ -7,6 +7,8 @@ spring:
         nacos:
             discovery:
                 server-addr: 172.16.10.145:31010
+                #ip: 127.0.0.1
+                #port: 18083
             password: nacos
             username: nacos
     rabbitmq:
@@ -62,3 +64,5 @@ mybatis:
     configuration:
         #当查询数据为空时字段返回为null，不加这个查询数据为空时，字段将被隐藏
         call-setters-on-nulls: true
+
+httpEncodeDecodeKey: chengis
